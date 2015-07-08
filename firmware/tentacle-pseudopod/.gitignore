@@ -1,0 +1,40 @@
+build
+bin
+dist
+Testing
+
+#Protocol buffer generated files
+*.proto
+*.pb*
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.hne
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+examples/pseudopod-wifi/wifi-credentials.h

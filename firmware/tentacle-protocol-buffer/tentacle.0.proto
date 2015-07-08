@@ -1,0 +1,103 @@
+syntax = "proto2";
+
+message Header {
+  optional CommandType cmd       = 1;
+  optional uint32      messageId = 3;
+  optional uint32      qos       = 4;
+}
+
+enum CommandType {
+  ConfigSet  = 10;
+  ConfigGet  = 11;
+  ConfigInfo = 12;
+
+  SendTo     = 20;
+  SendPins   = 21;
+
+  Delay      = 30;
+
+  ProgStart  = 40;
+  ProgEnd    = 41;
+  GetProg    = 42;
+
+  Auth       = 50;
+  AuthFailed = 51;
+  Register   = 52;
+
+  LoadProto  = 60;
+}
+
+message Null {}
+
+enum PinMode {
+  Ignore  = 0;
+  Digital = 1;
+  Analog  = 2;
+  Pwm     = 4;
+  Servo   = 3;
+  I2c     = 5;
+  Spi     = 0;
+  PullUp  = 6;
+}
+
+enum PinAction {
+  Info  = 0;
+  Read  = 1;
+  Write = 2;
+}
+
+message PinData {
+  repeated uint32    number   = 1 [packed=true];
+  repeated uint32    payload  = 2 [packed=true];
+  optional PinMode   mode     = 3;
+  optional PinAction action   = 4;
+}
+
+message PinInfo {
+  repeated uint32    pinMask = 1 [packed=true];
+  optional uint32    bitSize = 3;
+  optional PinMode   mode    = 4;
+}
+
+message BoardInfo {
+  repeated PinInfo pinInfo = 1;
+  optional uint32  numPins = 2;
+  string
+}
+
+message Ids {
+  repeated bytes ids = 1;
+}
+
+message Auth {
+  optional bytes id  = 1;
+  optional bytes key = 2;
+}
+
+message Pins {
+  repeated PinData pins    = 1;
+  optional uint32  numPins = 2;
+}
+
+message Delay {
+  optional uint32 milliseconds = 1;
+}
+
+message LoadProto {
+  optional uint32 tentacle = 1;
+  optional string fromUrl  = 2;
+}
+
+message Command {
+  optional CommandType cmd   = 1;
+  optional Ids         ids   = 2;
+  optional Auth        auth  = 3;
+  optional Pins        pins  = 4;
+  optional Delay       delay = 5;
+  optional LoadProto   proto = 6;
+}
+
+message Program {
+  optional Delay   loopTime = 1;
+  repeated Command program  = 2;
+}
