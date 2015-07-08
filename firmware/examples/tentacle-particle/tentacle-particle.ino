@@ -1,6 +1,4 @@
-#include <SPI.h>
-
-#include "tentacle-build.h"
+#include "tentacle-particle.h"
 
 #define conn Serial
 
