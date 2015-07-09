@@ -1,7 +1,7 @@
 #ifndef tentacle_h
 #define tentacle_h
 
-#include "tentacle-particle/tentacle-pseudopod/proto-buf.h"
+#include "proto-buf.h"
 #include "meshblu-credentials.h"
 
 
