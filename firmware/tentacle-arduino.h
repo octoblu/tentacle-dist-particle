@@ -1,4 +1,4 @@
-#include "tentacle-particle/tentacle/tentacle.h"
+#include "tentacle.h"
 
 #ifndef tentacle_arduino_h
 #define tentacle_arduino_h

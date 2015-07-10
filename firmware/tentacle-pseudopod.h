@@ -2,16 +2,16 @@
 #define TENTACLE_PSEUDOPOD_H
 
 extern "C" {
-#include "tentacle-particle/arduino-nanopb/pb_encode.h"
-#include "tentacle-particle/arduino-nanopb/pb_decode.h"
+#include "pb_encode.h"
+#include "pb_decode.h"
 }
 
 #include <stddef.h>
 
-#include "tentacle-particle/arduino-nanopb/pb_arduino_encode.h"
-#include "tentacle-particle/arduino-nanopb/pb_arduino_decode.h"
+#include "pb_arduino_encode.h"
+#include "pb_arduino_decode.h"
 
-#include "tentacle-particle/tentacle/tentacle.h"
+#include "tentacle.h"
 #include "proto-buf.h"
 
 // Make library cross-compatiable
