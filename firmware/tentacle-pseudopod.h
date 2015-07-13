@@ -42,6 +42,8 @@ class Pseudopod {
     size_t authenticate(const char* uuid, const char *token);
     size_t registerDevice();
 
+    bool isConnected();
+
    private:
     pb_ostream_t pbOutput;
     pb_istream_t pbInput;

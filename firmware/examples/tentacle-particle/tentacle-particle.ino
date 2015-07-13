@@ -1,12 +1,8 @@
 // This #include statement was automatically added by the Spark IDE.
 #include "tentacle-particle/tentacle-particle.h"
 
-// #define server "tentacle.octoblu.com"
-// #define port 80
-
-
-IPAddress server(192,168,0,112);
-#define port 8111
+#define server "tentacle.octoblu.com"
+#define port 80
 
 static const char uuid[]  = "ff12c403-04c7-4e63-9073-2e3b1f8e4450";
 static const char token[] = "28d2c24dfa0a5289799a345e683d570880a3bc41";
@@ -19,20 +15,22 @@ Pseudopod pseudopod(conn, conn, tentacle);
 void setup() {
   Serial.begin(9600);
   Serial.println(F("The Day of the Tentacle has begun!"));
-  waitForWifi();
   connectToServer();
 }
 
 void loop() {
-  if(!WiFi.ready()) {
-      Serial.println(F("WiFi wasn't ready. waiting."));
-  }
-  if (!conn.connected()) {
+  if (!pseudopod.isConnected()) {
     conn.stop();
     connectToServer();
   }
 
   readData();
+
+  if(!pseudopod.isConfigured()) {
+    Serial.println(F("I'm not configured. Requesting configuration."));
+    delay(300);
+    pseudopod.requestConfiguration();
+  }
 
   if(pseudopod.shouldBroadcastPins() ) {
     delay(pseudopod.getBroadcastInterval());
@@ -42,8 +40,14 @@ void loop() {
   }
 }
 
-void readData() {
+bool isConnected() {
+  if(!conn.connected()) {
+    return false;
+  }
+  return pseudopod.isConnected();
+}
 
+void readData() {
   while (conn.available()) {
     Serial.println(F("Received message"));
     Serial.flush();
@@ -53,13 +57,6 @@ void readData() {
     }
   }
 
-}
-
-void waitForWifi() {
-    while(!WiFi.ready()) {
-        Serial.println(F("Waiting for wifi"));
-        delay(200);
-    }
 }
 
 void connectToServer() {

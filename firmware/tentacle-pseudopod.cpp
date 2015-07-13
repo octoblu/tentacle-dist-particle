@@ -97,6 +97,19 @@ size_t Pseudopod::registerDevice() {
   return 0;
 }
 
+bool Pseudopod::isConnected() {
+  pbOutput.bytes_written = 0;
+
+  currentMessage = {};
+
+  currentMessage.topic = TentacleMessageTopic_ping;
+  currentMessage.has_topic = true;
+
+  bool status = pb_encode_delimited(&pbOutput, TentacleMessage_fields, &currentMessage);
+
+  return pbOutput.bytes_written != 0;
+}
+
 TentacleMessageTopic Pseudopod::readMessage() {
   resetPinActions();
 
