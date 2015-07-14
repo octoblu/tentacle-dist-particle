@@ -121,7 +121,7 @@ TentacleMessageTopic Pseudopod::readMessage() {
 
   if (currentMessage.topic == TentacleMessageTopic_config) {
     for(int i = 0; i < tentacle->getNumPins(); i++) {
-        pseudopod->tentacle->configurePin(i, messagePinActions[i]);
+        tentacle->configurePin(i, messagePinActions[i]);
     }
 
     configured = true;
