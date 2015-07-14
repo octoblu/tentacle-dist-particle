@@ -1,14 +1,14 @@
 // This #include statement was automatically added by the Spark IDE.
 #include "tentacle-particle.h"
 
-// #define server "tentacle.octoblu.com"
-// #define port 80
+#define server "tentacle.octoblu.com"
+#define port 80
 
-IPAddress server(192,168,100,9);
-#define port 8111
+// IPAddress server(192,168,100,9);
+// #define port 8111
 
-static const char uuid[]  = "ff12c403-04c7-4e63-9073-2e3b1f8e4450";
-static const char token[] = "28d2c24dfa0a5289799a345e683d570880a3bc41";
+static const char uuid[]  = "91f33395-847a-4d71-af25-fd3abe3371bc";
+static const char token[] = "24fefe99413b16283f41c7cf8c82d376211392f7";
 
 TCPClient conn;
 
@@ -24,7 +24,6 @@ void setup() {
 }
 
 void loop() {
-
   if (!isConnected()) {
     conn.stop();
     connectToServer();
@@ -42,7 +41,6 @@ void loop() {
 }
 
 bool isConnected() {
-
   if(!conn.connected()) {
     return false;
   }
@@ -68,7 +66,6 @@ void readData() {
       Serial.println(F("Got an action message"));
       pseudopod.sendPins();
     }
-
   }
 }
 
@@ -87,5 +84,4 @@ void connectToServer() {
   size_t authSize = pseudopod.authenticate(uuid, token);
   Serial.print(authSize);
   Serial.println(F(" bytes written for authentication"));
-
 }
