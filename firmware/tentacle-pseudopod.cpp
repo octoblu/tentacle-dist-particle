@@ -120,6 +120,10 @@ TentacleMessageTopic Pseudopod::readMessage() {
   bool status = pb_decode_delimited(&pbInput, TentacleMessage_fields, &currentMessage);
 
   if (currentMessage.topic == TentacleMessageTopic_config) {
+    for(int i = 0; i < tentacle->getNumPins(); i++) {
+        pseudopod->tentacle->configurePin(i, messagePinActions[i]);
+    }
+
     configured = true;
     broadcastPins = currentMessage.broadcastPins;
     broadcastInterval = currentMessage.broadcastInterval;
@@ -173,17 +177,10 @@ bool Pseudopod::pinDecode(pb_istream_t *stream, const pb_field_t *field, void **
   }
 
   TentacleMessage& message = pseudopod->currentMessage;
+  pseudopod->messagePinActions[pin.number] = pin.action;
 
-  switch(message.topic) {
-    case TentacleMessageTopic_config:
-      pseudopod->tentacle->configurePin(pin.number, pin.action);
-    break;
-
-    case TentacleMessageTopic_action:
-      pseudopod->messagePinActions[pin.number] = pin.action;
-      pseudopod->tentacle->processPin(pin.number, pin.value);
-    break;
-
+  if(message.topic == TentacleMessageTopic_action) {
+    pseudopod->tentacle->processPin(pin.number, pin.value);
   }
 
   return true;

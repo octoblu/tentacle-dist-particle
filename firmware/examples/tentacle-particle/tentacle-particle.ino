@@ -1,8 +1,11 @@
 // This #include statement was automatically added by the Spark IDE.
-#include "tentacle-particle/tentacle-particle.h"
+#include "tentacle-particle.h"
 
-#define server "tentacle.octoblu.com"
-#define port 80
+// #define server "tentacle.octoblu.com"
+// #define port 80
+
+IPAddress server(192,168,100,9);
+#define port 8111
 
 static const char uuid[]  = "ff12c403-04c7-4e63-9073-2e3b1f8e4450";
 static const char token[] = "28d2c24dfa0a5289799a345e683d570880a3bc41";
@@ -12,6 +15,8 @@ TCPClient conn;
 TentacleArduino tentacle;
 Pseudopod pseudopod(conn, conn, tentacle);
 
+uint32_t lastPing = 0;
+
 void setup() {
   Serial.begin(9600);
   Serial.println(F("The Day of the Tentacle has begun!"));
@@ -19,18 +24,13 @@ void setup() {
 }
 
 void loop() {
-  if (!pseudopod.isConnected()) {
+
+  if (!isConnected()) {
     conn.stop();
     connectToServer();
   }
 
   readData();
-
-  if(!pseudopod.isConfigured()) {
-    Serial.println(F("I'm not configured. Requesting configuration."));
-    delay(300);
-    pseudopod.requestConfiguration();
-  }
 
   if(pseudopod.shouldBroadcastPins() ) {
     delay(pseudopod.getBroadcastInterval());
@@ -38,13 +38,25 @@ void loop() {
     Serial.print(configSize);
     Serial.print(F(" bytes written while broadcasting pins"));
   }
+
 }
 
 bool isConnected() {
+
   if(!conn.connected()) {
     return false;
   }
-  return pseudopod.isConnected();
+
+  //send keepalive every 5 seconds.
+  if( (millis() - lastPing) > 5000) {
+    Serial.println(F("Pinging the server"));
+    Serial.flush();
+    lastPing = millis();
+    return pseudopod.isConnected();
+
+  }
+
+  return true;
 }
 
 void readData() {
@@ -53,10 +65,11 @@ void readData() {
     Serial.flush();
 
     if(pseudopod.readMessage() == TentacleMessageTopic_action) {
+      Serial.println(F("Got an action message"));
       pseudopod.sendPins();
     }
-  }
 
+  }
 }
 
 void connectToServer() {
