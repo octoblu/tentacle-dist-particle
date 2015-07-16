@@ -1,5 +1,5 @@
 // This #include statement was automatically added by the Spark IDE.
-#include "tentacle-particle.h"
+#include "tentacle-particle/tentacle-particle.h"
 
 #define server "tentacle.octoblu.com"
 #define port 80
