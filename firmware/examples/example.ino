@@ -7,8 +7,9 @@
 // IPAddress server(192,168,100,9);
 // #define port 8111
 
-static const char uuid[]  = "91f33395-847a-4d71-af25-fd3abe3371bc";
-static const char token[] = "24fefe99413b16283f41c7cf8c82d376211392f7";
+//Checkout http://tentacle.readme.io for setup and usage instructions
+static const char uuid[]  = "INSERT YOUR UUID HERE";
+static const char token[] = "INSERT YOUR TOKEN HERE";
 
 TCPClient conn;
 
