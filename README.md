@@ -1,14 +1,3 @@
-# tentacle-build
+This library brings the power of The Tentacle to Particle.io's Photon and Spark Core!
 
-
-## Local Build
-
-Using docker with vagrant:
-
-```bash
-docker build -t octoblu/tentacle-build:latest .
-
-docker run \
-  --volume=/home/core/Projects/Octoblu/tentacle-build:/tentacle-zip \
-  --rm octoblu/tentacle-build:latest
-```
+Control your Microcontroller with simple JSON messages via meshblu, or through Octoblu's graphical designer with no code at all!
