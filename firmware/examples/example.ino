@@ -2,7 +2,7 @@
 #include "tentacle-particle/tentacle-particle.h"
 
 #define server "tentacle.octoblu.com"
-#define port 80
+#define port 1528
 
 // IPAddress server(192,168,100,9);
 // #define port 8111
